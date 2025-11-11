@@ -89,27 +89,16 @@ class DatabaseConfig:
 
     wcdbmap = "wcmktnorth2" #master config variable for the database to use
 
-    _db_paths = {
-        "wcmktnorth2": "wcmktnorth2.db", #production database
-        "sde": "sdelite.db",
-        "build_cost": "buildcost.db",
-        "wcmkt3": "wcmkt3.db" #testing db
 
-    }
 
-    _db_turso_urls = {
-        "wcmktnorth2_turso": st.secrets.wcmktnorth2_turso.url,
-        "sde_turso": st.secrets.sde_lite_turso.url,
-        "build_cost_turso": st.secrets.buildcost_turso.url,
-        "wcmkt3_turso": st.secrets.wcmkt3_turso.url,
-    }
+db = create_client(
+    url=os.getenv("libsql://evilmrt-footy.aws-us-west-2.turso.io"),
+    auth_token=os.getenv("eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NjI4NTc2NzMsImlkIjoiMDBlYjJkMWUtMzM0Ni00OTI0LTg2NGUtMTUyNGU1MTFhYTUyIiwicmlkIjoiODkyNTc3Y2QtMzhmZi00ZjU2LWE4Y2ItYzI0OGIyMjY1ZWYzIn0.6GYxMyKAqXaoFG-m7qfKFy1UVL3csbxA4aB7gMuU-0CHYQKW9TQXBwAmqcE-mx3HnE0gUvO2Jfmia1Mm_xrHCg")
+)
 
-    _db_turso_auth_tokens = {
-        "wcmktnorth2_turso": st.secrets.wcmktnorth2_turso.token,
-        "sde_turso": st.secrets.sde_lite_turso.token,
-        "build_cost_turso": st.secrets.buildcost_turso.token,
-        "wcmkt3_turso": st.secrets.wcmkt3_turso.token,
-    }
+result = db.execute("SELECT * FROM users;")
+print(result)
+
 
     # Shared handles per-alias to avoid multiple simultaneous connections to the same file
     _engines: dict[str, object] = {}
